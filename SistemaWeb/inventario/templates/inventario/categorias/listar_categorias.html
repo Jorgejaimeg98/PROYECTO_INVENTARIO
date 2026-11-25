@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Categorías | InventaPro{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="badge badge-secondary">Módulo Relacionado</span>
+        <h1>Categorías</h1>
+        <p class="subtitle">Categorías activas asociadas a los artículos.</p>
+    </div>
+    <a href="{% url 'categoria_crear' %}" class="btn btn-primary">+ Nueva Categoría</a>
+</div>
+
+<div class="card table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cat in categorias %}
+            <tr>
+                <td><strong>{{ cat.codigo }}</strong></td>
+                <td>{{ cat.nombre }}</td>
+                <td>{{ cat.descripcion|default:"-" }}</td>
+                <td class="actions-cell">
+                    <a href="{% url 'categoria_editar' cat.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'categoria_eliminar' cat.pk %}" class="inline-form confirm-delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty-row">No existen categorías activas registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Proveedores | InventaPro{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="badge badge-secondary">Módulo Relacionado</span>
+        <h1>Proveedores</h1>
+        <p class="subtitle">Proveedores activos registrados para abastecimiento.</p>
+    </div>
+    <a href="{% url 'proveedor_crear' %}" class="btn btn-primary">+ Nuevo Proveedor</a>
+</div>
+
+<div class="card table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>RUC</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prov in proveedores %}
+            <tr>
+                <td><strong>{{ prov.ruc }}</strong></td>
+                <td>{{ prov.nombre }}</td>
+                <td>{{ prov.telefono }}</td>
+                <td>{{ prov.correo }}</td>
+                <td>{{ prov.direccion }}</td>
+                <td class="actions-cell">
+                    <a href="{% url 'proveedor_editar' prov.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'proveedor_eliminar' prov.pk %}" class="inline-form confirm-delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="empty-row">No existen proveedores activos registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

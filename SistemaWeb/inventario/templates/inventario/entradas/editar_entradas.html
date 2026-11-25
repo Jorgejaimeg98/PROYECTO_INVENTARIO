@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Editar Entrada | InventaPro{% endblock %}
+{% block content %}
+{% include "partials/form_mantenimiento.html" with es_nucleo=False titulo="Editar Entrada" subtitulo="Modifica los datos de la entrada y ajusta el stock automáticamente." url_volver="entrada_lista" texto_boton="Actualizar Entrada" %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Salidas | InventaPro{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="badge badge-secondary">Módulo Relacionado</span>
+        <h1>Salidas de Inventario</h1>
+        <p class="subtitle">Movimientos de egreso de stock con control de disponibilidad.</p>
+    </div>
+    <a href="{% url 'salida_crear' %}" class="btn btn-primary">+ Nueva Salida</a>
+</div>
+
+<div class="card table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Fecha</th>
+                <th>Artículo</th>
+                <th>Cantidad</th>
+                <th>Motivo</th>
+                <th>Observación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sal in salidas %}
+            <tr>
+                <td><strong>{{ sal.numero_documento }}</strong></td>
+                <td>{{ sal.fecha_salida|date:"d/m/Y" }}</td>
+                <td>{{ sal.articulo.nombre }}</td>
+                <td>-{{ sal.cantidad }}</td>
+                <td>{{ sal.get_motivo_display }}</td>
+                <td>{{ sal.observacion|default:"-" }}</td>
+                <td class="actions-cell">
+                    <a href="{% url 'salida_editar' sal.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'salida_eliminar' sal.pk %}" class="inline-form confirm-delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="empty-row">No existen salidas activas registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

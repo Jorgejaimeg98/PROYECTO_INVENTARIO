@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Artículos | InventaPro{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="badge badge-primary">Módulo Núcleo</span>
+        <h1>Artículos</h1>
+        <p class="subtitle">Listado de artículos activos en el inventario.</p>
+    </div>
+    <a href="{% url 'articulo_crear' %}" class="btn btn-primary">+ Nuevo Artículo</a>
+</div>
+
+<div class="card table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Proveedor</th>
+                <th>Precio ($)</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for art in articulos %}
+            <tr>
+                <td><strong>{{ art.codigo }}</strong></td>
+                <td>{{ art.nombre }}</td>
+                <td>{{ art.categoria.nombre }}</td>
+                <td>{{ art.proveedor.nombre }}</td>
+                <td>${{ art.precio_unitario }}</td>
+                <td>
+                    <span class="stock-pill {% if art.bajo_stock %}stock-low{% else %}stock-ok{% endif %}">
+                        {{ art.stock_actual }} / mín. {{ art.stock_minimo }}
+                    </span>
+                </td>
+                <td class="actions-cell">
+                    <a href="{% url 'articulo_editar' art.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'articulo_eliminar' art.pk %}" class="inline-form confirm-delete-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="empty-row">No existen artículos activos registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

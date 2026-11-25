@@ -1,10 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Iniciar Sesión | InventaPro{% endblock %}
 
-</body>
-</html>
+{% block auth_content %}
+<div class="auth-card">
+    <div class="auth-header">
+        <div class="brand-badge large">INV</div>
+        <h1>Bienvenido a InventaPro</h1>
+        <p>Ingresa tus credenciales para acceder al sistema de inventario.</p>
+    </div>
+
+    <form method="post" novalidate class="validated-form" data-form-type="login">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }} <span class="req">*</span></label>
+            {{ field }}
+            <small class="js-error-msg"></small>
+            {% for error in field.errors %}
+                <small class="field-error">{{ error }}</small>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+    </form>
+
+    <div class="auth-footer">
+        ¿No tienes una cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a>
+    </div>
+</div>
+{% endblock %}
