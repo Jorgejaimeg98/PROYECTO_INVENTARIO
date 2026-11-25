@@ -102,7 +102,7 @@ def menu_principal(request):
 @login_required
 def listar_articulos(request):
     articulos = Articulo.objects.select_related('categoria', 'proveedor').filter(activo=True)
-    return render(request, 'inventario/articulos/lista.html', {'articulos': articulos})
+    return render(request, 'inventario/articulos/listar_articulos.html', {'articulos': articulos})
 
 
 @login_required
@@ -112,12 +112,12 @@ def crear_articulos(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro creado correctamente.')
-            return redirect('articulo_lista')
+            return redirect('listar_articulos')
         _notificar_errores_formulario(request, form)
     else:
         form = ArticuloForm()
 
-    return render(request, 'inventario/articulos/crear.html', {'form': form})
+    return render(request, 'inventario/articulos/crear_articulos.html', {'form': form})
 
 
 @login_required
@@ -125,19 +125,19 @@ def editar_articulos(request, pk):
     articulo = Articulo.objects.filter(pk=pk, activo=True).first()
     if not articulo:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('articulo_lista')
+        return redirect('listar_articulos')
 
     if request.method == 'POST':
         form = ArticuloForm(request.POST, instance=articulo)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro actualizado correctamente.')
-            return redirect('articulo_lista')
+            return redirect('listar_articulos')
         _notificar_errores_formulario(request, form)
     else:
         form = ArticuloForm(instance=articulo)
 
-    return render(request, 'inventario/articulos/editar.html', {'form': form, 'articulo': articulo})
+    return render(request, 'inventario/articulos/editar_articulos.html', {'form': form, 'articulo': articulo})
 
 
 @login_required
@@ -145,12 +145,12 @@ def eliminar_articulos(request, pk):
     articulo = Articulo.objects.filter(pk=pk, activo=True).first()
     if not articulo:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('articulo_lista')
+        return redirect('listar_articulos')
 
     if request.method == 'POST':
         articulo.eliminar_logico()
         messages.success(request, 'Registro eliminado lógicamente de manera exitosa.')
-    return redirect('articulo_lista')
+    return redirect('listar_articulos')
 
 
 # ==============================================================================

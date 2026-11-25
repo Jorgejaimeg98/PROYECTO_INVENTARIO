@@ -8,7 +8,7 @@
         <h1>Artículos</h1>
         <p class="subtitle">Listado de artículos activos en el inventario.</p>
     </div>
-    <a href="{% url 'articulo_crear' %}" class="btn btn-primary">+ Nuevo Artículo</a>
+    <a href="{% url 'crear_articulos' %}" class="btn btn-primary">+ Nuevo Artículo</a>
 </div>
 
 <div class="card table-card">
@@ -38,8 +38,8 @@
                     </span>
                 </td>
                 <td class="actions-cell">
-                    <a href="{% url 'articulo_editar' art.pk %}" class="btn btn-outline btn-sm">Editar</a>
-                    <form method="post" action="{% url 'articulo_eliminar' art.pk %}" class="inline-form confirm-delete-form">
+                    <a href="{% url 'editar_articulos' art.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'eliminar_articulos' art.pk %}" class="inline-form confirm-delete-form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>

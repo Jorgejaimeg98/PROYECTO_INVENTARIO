@@ -26,21 +26,21 @@
             </a>
 
             <div class="nav-section">Mantenimiento Núcleo</div>
-            <a href="{% url 'articulo_lista' %}" class="nav-link nav-core {% if 'articulo' in request.resolver_match.url_name %}active{% endif %}">
+            <a href="{% url 'listar_articulos' %}" class="nav-link nav-core {% if 'articulo' in request.resolver_match.url_name %}active{% endif %}">
                 Artículos
             </a>
 
             <div class="nav-section">Módulos Relacionados</div>
-            <a href="{% url 'categoria_lista' %}" class="nav-link {% if 'categoria' in request.resolver_match.url_name %}active{% endif %}">
+            <a href="{% url 'listar_categorias' %}" class="nav-link {% if 'categoria' in request.resolver_match.url_name %}active{% endif %}">
                 Categorías
             </a>
-            <a href="{% url 'proveedor_lista' %}" class="nav-link {% if 'proveedor' in request.resolver_match.url_name %}active{% endif %}">
+            <a href="{% url 'listar_proveedores' %}" class="nav-link {% if 'proveedor' in request.resolver_match.url_name %}active{% endif %}">
                 Proveedores
             </a>
-            <a href="{% url 'entrada_lista' %}" class="nav-link {% if 'entrada' in request.resolver_match.url_name %}active{% endif %}">
+            <a href="{% url 'listar_entradas' %}" class="nav-link {% if 'entrada' in request.resolver_match.url_name %}active{% endif %}">
                 Entradas
             </a>
-            <a href="{% url 'salida_lista' %}" class="nav-link {% if 'salida' in request.resolver_match.url_name %}active{% endif %}">
+            <a href="{% url 'listar_salidas' %}" class="nav-link {% if 'salida' in request.resolver_match.url_name %}active{% endif %}">
                 Salidas
             </a>
         </nav>
