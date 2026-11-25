@@ -8,7 +8,7 @@
         <h1>Categorías</h1>
         <p class="subtitle">Categorías activas asociadas a los artículos.</p>
     </div>
-    <a href="{% url 'categoria_crear' %}" class="btn btn-primary">+ Nueva Categoría</a>
+    <a href="{% url 'crear_categorias' %}" class="btn btn-primary">+ Nueva Categoría</a>
 </div>
 
 <div class="card table-card">
@@ -28,8 +28,8 @@
                 <td>{{ cat.nombre }}</td>
                 <td>{{ cat.descripcion|default:"-" }}</td>
                 <td class="actions-cell">
-                    <a href="{% url 'categoria_editar' cat.pk %}" class="btn btn-outline btn-sm">Editar</a>
-                    <form method="post" action="{% url 'categoria_eliminar' cat.pk %}" class="inline-form confirm-delete-form">
+                    <a href="{% url 'editar_categorias' cat.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'eliminar_categorias' cat.pk %}" class="inline-form confirm-delete-form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>

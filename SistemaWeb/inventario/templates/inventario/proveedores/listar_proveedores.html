@@ -8,7 +8,7 @@
         <h1>Proveedores</h1>
         <p class="subtitle">Proveedores activos registrados para abastecimiento.</p>
     </div>
-    <a href="{% url 'proveedor_crear' %}" class="btn btn-primary">+ Nuevo Proveedor</a>
+    <a href="{% url 'crear_proveedores' %}" class="btn btn-primary">+ Nuevo Proveedor</a>
 </div>
 
 <div class="card table-card">
@@ -32,8 +32,8 @@
                 <td>{{ prov.correo }}</td>
                 <td>{{ prov.direccion }}</td>
                 <td class="actions-cell">
-                    <a href="{% url 'proveedor_editar' prov.pk %}" class="btn btn-outline btn-sm">Editar</a>
-                    <form method="post" action="{% url 'proveedor_eliminar' prov.pk %}" class="inline-form confirm-delete-form">
+                    <a href="{% url 'editar_proveedores' prov.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'eliminar_proveedores' prov.pk %}" class="inline-form confirm-delete-form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>

@@ -8,7 +8,7 @@
         <h1>Entradas de Inventario</h1>
         <p class="subtitle">Movimientos de ingreso de stock vinculados a artículos y proveedores.</p>
     </div>
-    <a href="{% url 'entrada_crear' %}" class="btn btn-primary">+ Nueva Entrada</a>
+    <a href="{% url 'crear_entradas' %}" class="btn btn-primary">+ Nueva Entrada</a>
 </div>
 
 <div class="card table-card">
@@ -36,8 +36,8 @@
                 <td>${{ ent.costo_unitario }}</td>
                 <td><strong>${{ ent.total|floatformat:2 }}</strong></td>
                 <td class="actions-cell">
-                    <a href="{% url 'entrada_editar' ent.pk %}" class="btn btn-outline btn-sm">Editar</a>
-                    <form method="post" action="{% url 'entrada_eliminar' ent.pk %}" class="inline-form confirm-delete-form">
+                    <a href="{% url 'editar_entradas' ent.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'eliminar_entradas' ent.pk %}" class="inline-form confirm-delete-form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>

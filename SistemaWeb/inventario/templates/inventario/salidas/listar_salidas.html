@@ -8,7 +8,7 @@
         <h1>Salidas de Inventario</h1>
         <p class="subtitle">Movimientos de egreso de stock con control de disponibilidad.</p>
     </div>
-    <a href="{% url 'salida_crear' %}" class="btn btn-primary">+ Nueva Salida</a>
+    <a href="{% url 'crear_salidas' %}" class="btn btn-primary">+ Nueva Salida</a>
 </div>
 
 <div class="card table-card">
@@ -34,8 +34,8 @@
                 <td>{{ sal.get_motivo_display }}</td>
                 <td>{{ sal.observacion|default:"-" }}</td>
                 <td class="actions-cell">
-                    <a href="{% url 'salida_editar' sal.pk %}" class="btn btn-outline btn-sm">Editar</a>
-                    <form method="post" action="{% url 'salida_eliminar' sal.pk %}" class="inline-form confirm-delete-form">
+                    <a href="{% url 'editar_salidas' sal.pk %}" class="btn btn-outline btn-sm">Editar</a>
+                    <form method="post" action="{% url 'eliminar_salidas' sal.pk %}" class="inline-form confirm-delete-form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>

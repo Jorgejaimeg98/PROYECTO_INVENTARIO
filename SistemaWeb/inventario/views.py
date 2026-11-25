@@ -160,7 +160,7 @@ def eliminar_articulos(request, pk):
 @login_required
 def listar_categorias(request):
     categorias = Categoria.objects.filter(activo=True)
-    return render(request, 'inventario/categorias/lista.html', {'categorias': categorias})
+    return render(request, 'inventario/categorias/listar_categorias.html', {'categorias': categorias})
 
 
 @login_required
@@ -170,12 +170,12 @@ def crear_categorias(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro creado correctamente.')
-            return redirect('categoria_lista')
+            return redirect('listar_categorias')
         _notificar_errores_formulario(request, form)
     else:
         form = CategoriaForm()
 
-    return render(request, 'inventario/categorias/crear.html', {'form': form})
+    return render(request, 'inventario/categorias/crear_categorias.html', {'form': form})
 
 
 @login_required
@@ -183,19 +183,19 @@ def editar_categorias(request, pk):
     categoria = Categoria.objects.filter(pk=pk, activo=True).first()
     if not categoria:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('categoria_lista')
+        return redirect('listar_categorias')
 
     if request.method == 'POST':
         form = CategoriaForm(request.POST, instance=categoria)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro actualizado correctamente.')
-            return redirect('categoria_lista')
+            return redirect('listar_categorias')
         _notificar_errores_formulario(request, form)
     else:
         form = CategoriaForm(instance=categoria)
 
-    return render(request, 'inventario/categorias/editar.html', {'form': form, 'categoria': categoria})
+    return render(request, 'inventario/categorias/editar_categorias.html', {'form': form, 'categoria': categoria})
 
 
 @login_required
@@ -203,12 +203,12 @@ def eliminar_categorias(request, pk):
     categoria = Categoria.objects.filter(pk=pk, activo=True).first()
     if not categoria:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('categoria_lista')
+        return redirect('listar_categorias')
 
     if request.method == 'POST':
         categoria.eliminar_logico()
         messages.success(request, 'Registro eliminado lógicamente de manera exitosa.')
-    return redirect('categoria_lista')
+    return redirect('listar_categorias')
 
 
 # ==============================================================================
@@ -218,7 +218,7 @@ def eliminar_categorias(request, pk):
 @login_required
 def listar_proveedores(request):
     proveedores = Proveedor.objects.filter(activo=True)
-    return render(request, 'inventario/proveedores/lista.html', {'proveedores': proveedores})
+    return render(request, 'inventario/proveedores/listar_proveedores.html', {'proveedores': proveedores})
 
 
 @login_required
@@ -228,12 +228,12 @@ def crear_proveedores(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro creado correctamente.')
-            return redirect('proveedor_lista')
+            return redirect('listar_proveedores')
         _notificar_errores_formulario(request, form)
     else:
         form = ProveedorForm()
 
-    return render(request, 'inventario/proveedores/crear.html', {'form': form})
+    return render(request, 'inventario/proveedores/crear_proveedores.html', {'form': form})
 
 
 @login_required
@@ -241,19 +241,19 @@ def editar_proveedores(request, pk):
     proveedor = Proveedor.objects.filter(pk=pk, activo=True).first()
     if not proveedor:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('proveedor_lista')
+        return redirect('listar_proveedores')
 
     if request.method == 'POST':
         form = ProveedorForm(request.POST, instance=proveedor)
         if form.is_valid():
             form.save()
             messages.success(request, 'Registro actualizado correctamente.')
-            return redirect('proveedor_lista')
+            return redirect('listar_proveedores')
         _notificar_errores_formulario(request, form)
     else:
         form = ProveedorForm(instance=proveedor)
 
-    return render(request, 'inventario/proveedores/editar.html', {'form': form, 'proveedor': proveedor})
+    return render(request, 'inventario/proveedores/editar_proveedores.html', {'form': form, 'proveedor': proveedor})
 
 
 @login_required
@@ -261,12 +261,12 @@ def eliminar_proveedores(request, pk):
     proveedor = Proveedor.objects.filter(pk=pk, activo=True).first()
     if not proveedor:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('proveedor_lista')
+        return redirect('listar_proveedores')
 
     if request.method == 'POST':
         proveedor.eliminar_logico()
         messages.success(request, 'Registro eliminado lógicamente de manera exitosa.')
-    return redirect('proveedor_lista')
+    return redirect('listar_proveedores')
 
 
 # ==============================================================================
@@ -276,7 +276,7 @@ def eliminar_proveedores(request, pk):
 @login_required
 def listar_entradas(request):
     entradas = Entrada.objects.select_related('articulo', 'proveedor', 'usuario').filter(activo=True)
-    return render(request, 'inventario/entradas/lista.html', {'entradas': entradas})
+    return render(request, 'inventario/entradas/listar_entradas.html', {'entradas': entradas})
 
 
 @login_required
@@ -292,12 +292,12 @@ def crear_entradas(request):
                 articulo.stock_actual += entrada.cantidad
                 articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
             messages.success(request, 'Registro creado correctamente.')
-            return redirect('entrada_lista')
+            return redirect('listar_entradas')
         _notificar_errores_formulario(request, form)
     else:
         form = EntradaForm()
 
-    return render(request, 'inventario/entradas/crear.html', {'form': form})
+    return render(request, 'inventario/entradas/crear_entradas.html', {'form': form})
 
 
 @login_required
@@ -305,7 +305,7 @@ def editar_entradas(request, pk):
     entrada = Entrada.objects.select_related('articulo').filter(pk=pk, activo=True).first()
     if not entrada:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('entrada_lista')
+        return redirect('listar_entradas')
 
     articulo_anterior = entrada.articulo
     cantidad_anterior = entrada.cantidad
@@ -320,26 +320,26 @@ def editar_entradas(request, pk):
                     if nuevo_stock < 0:
                         messages.error(request, 'Error en validación de formulario.')
                         form.add_error('cantidad', 'El ajuste dejaría el stock del artículo en negativo.')
-                        return render(request, 'inventario/entradas/editar.html', {'form': form, 'entrada': entrada})
+                        return render(request, 'inventario/entradas/editar_entradas.html', {'form': form, 'entrada': entrada})
                     articulo_anterior.stock_actual = nuevo_stock
                     articulo_anterior.save(update_fields=['stock_actual', 'fecha_actualizacion'])
                 else:
                     if articulo_anterior.stock_actual < cantidad_anterior:
                         messages.error(request, 'Error en validación de formulario.')
                         form.add_error('articulo', 'No hay stock suficiente en el artículo anterior para revertir esta entrada.')
-                        return render(request, 'inventario/entradas/editar.html', {'form': form, 'entrada': entrada})
+                        return render(request, 'inventario/entradas/editar_entradas.html', {'form': form, 'entrada': entrada})
                     articulo_anterior.stock_actual -= cantidad_anterior
                     articulo_anterior.save(update_fields=['stock_actual', 'fecha_actualizacion'])
                     nueva_entrada.articulo.stock_actual += nueva_entrada.cantidad
                     nueva_entrada.articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
                 nueva_entrada.save()
             messages.success(request, 'Registro actualizado correctamente.')
-            return redirect('entrada_lista')
+            return redirect('listar_entradas')
         _notificar_errores_formulario(request, form)
     else:
         form = EntradaForm(instance=entrada)
 
-    return render(request, 'inventario/entradas/editar.html', {'form': form, 'entrada': entrada})
+    return render(request, 'inventario/entradas/editar_entradas.html', {'form': form, 'entrada': entrada})
 
 
 @login_required
@@ -347,7 +347,7 @@ def eliminar_entradas(request, pk):
     entrada = Entrada.objects.select_related('articulo').filter(pk=pk, activo=True).first()
     if not entrada:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('entrada_lista')
+        return redirect('listar_entradas')
 
     if request.method == 'POST':
         with transaction.atomic():
@@ -356,7 +356,7 @@ def eliminar_entradas(request, pk):
                 entrada.articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
             entrada.eliminar_logico()
         messages.success(request, 'Registro eliminado lógicamente de manera exitosa.')
-    return redirect('entrada_lista')
+    return redirect('listar_entradas')
 
 
 # ==============================================================================
@@ -366,7 +366,7 @@ def eliminar_entradas(request, pk):
 @login_required
 def listar_salidas(request):
     salidas = Salida.objects.select_related('articulo', 'usuario').filter(activo=True)
-    return render(request, 'inventario/salidas/lista.html', {'salidas': salidas})
+    return render(request, 'inventario/salidas/listar_salidas.html', {'salidas': salidas})
 
 
 @login_required
@@ -382,12 +382,12 @@ def crear_salidas(request):
                 articulo.stock_actual -= salida.cantidad
                 articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
             messages.success(request, 'Registro creado correctamente.')
-            return redirect('salida_lista')
+            return redirect('listar_salidas')
         _notificar_errores_formulario(request, form)
     else:
         form = SalidaForm()
 
-    return render(request, 'inventario/salidas/crear.html', {'form': form})
+    return render(request, 'inventario/salidas/crear_salidas.html', {'form': form})
 
 
 @login_required
@@ -395,7 +395,7 @@ def editar_salidas(request, pk):
     salida = Salida.objects.select_related('articulo').filter(pk=pk, activo=True).first()
     if not salida:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('salida_lista')
+        return redirect('listar_salidas')
 
     articulo_anterior = salida.articulo
     cantidad_anterior = salida.cantidad
@@ -417,12 +417,12 @@ def editar_salidas(request, pk):
                     nueva_salida.articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
                 nueva_salida.save()
             messages.success(request, 'Registro actualizado correctamente.')
-            return redirect('salida_lista')
+            return redirect('listar_salidas')
         _notificar_errores_formulario(request, form)
     else:
         form = SalidaForm(instance=salida)
 
-    return render(request, 'inventario/salidas/editar.html', {'form': form, 'salida': salida})
+    return render(request, 'inventario/salidas/editar_salidas.html', {'form': form, 'salida': salida})
 
 
 @login_required
@@ -430,7 +430,7 @@ def eliminar_salidas(request, pk):
     salida = Salida.objects.select_related('articulo').filter(pk=pk, activo=True).first()
     if not salida:
         messages.error(request, 'Registro no encontrado.')
-        return redirect('salida_lista')
+        return redirect('listar_salidas')
 
     if request.method == 'POST':
         with transaction.atomic():
@@ -438,4 +438,4 @@ def eliminar_salidas(request, pk):
             salida.articulo.save(update_fields=['stock_actual', 'fecha_actualizacion'])
             salida.eliminar_logico()
         messages.success(request, 'Registro eliminado lógicamente de manera exitosa.')
-    return redirect('salida_lista')
+    return redirect('listar_salidas')
