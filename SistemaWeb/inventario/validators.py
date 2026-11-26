@@ -72,5 +72,5 @@ def validar_telefono(valor):
     if not telefono.isdigit():
         raise ValidationError('El teléfono debe contener únicamente números.')
 
-    if len(telefono) < 7 or len(telefono) > 15:
-        raise ValidationError('El teléfono debe tener entre 7 y 15 dígitos.')
+    if len(telefono) != 10:
+        raise ValidationError('El teléfono debe tener exactamente 10 dígitos.')

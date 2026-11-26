@@ -69,7 +69,7 @@ class RegistroUsuarioForm(EstiloFormularioMixin, forms.ModelForm):
             'first_name': forms.TextInput(attrs={'placeholder': 'Ej. Carlos Andrés'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Ej. Mendoza Vera'}),
             'email': forms.EmailInput(attrs={'placeholder': 'correo@ejemplo.com'}),
-            'telefono': forms.TextInput(attrs={'maxlength': '15', 'placeholder': 'Ej. 0991234567'}),
+            'telefono': forms.TextInput(attrs={'maxlength': '10', 'placeholder': 'Ej. 0991234567'}),
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Av. Principal y Calle Secundaria'}),
         }
@@ -166,7 +166,7 @@ class ProveedorForm(EstiloFormularioMixin, forms.ModelForm):
         widgets = {
             'ruc': forms.TextInput(attrs={'maxlength': '13', 'placeholder': 'Ej. 0991234567001'}),
             'nombre': forms.TextInput(attrs={'placeholder': 'Ej. Distribuidora Central S.A.'}),
-            'telefono': forms.TextInput(attrs={'maxlength': '15', 'placeholder': 'Ej. 042123456'}),
+            'telefono': forms.TextInput(attrs={'maxlength': '10', 'placeholder': 'Ej. 042123456'}),
             'correo': forms.EmailInput(attrs={'placeholder': 'ventas@proveedor.com'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección comercial'}),
         }

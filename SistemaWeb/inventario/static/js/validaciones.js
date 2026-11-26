@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Teléfono
-                if (campo.name === 'telefono' && valor !== '' && !/^\d{7,15}$/.test(valor)) {
-                    mostrarError(campo, 'El teléfono debe contener solo entre 7 y 15 dígitos.');
+                if (campo.name === 'telefono' && valor !== '' && !/^\d{10}$/.test(valor)) {
+                    mostrarError(campo, 'El teléfono debe contener exactamente 10 dígitos numéricos.');
                     esValido = false;
                 }
 

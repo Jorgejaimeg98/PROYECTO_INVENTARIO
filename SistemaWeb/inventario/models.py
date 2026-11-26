@@ -39,7 +39,7 @@ class Usuario(AbstractUser):
     first_name = models.CharField('Nombres', max_length=100)
     last_name = models.CharField('Apellidos', max_length=100)
     email = models.EmailField('Correo electrónico', unique=True)
-    telefono = models.CharField('Teléfono', max_length=15, validators=[validar_telefono])
+    telefono = models.CharField('Teléfono', max_length=10, validators=[validar_telefono])
     fecha_nacimiento = models.DateField('Fecha de nacimiento')
     direccion = models.CharField('Dirección', max_length=255)
     activo = models.BooleanField('Activo', default=True)
@@ -90,7 +90,7 @@ class Proveedor(ModeloBase):
     """Mantenimiento relacionado 2: Proveedores de artículos."""
     ruc = models.CharField('RUC', max_length=13, unique=True, validators=[validar_ruc_ecuatoriano])
     nombre = models.CharField('Razón social / Nombre', max_length=150)
-    telefono = models.CharField('Teléfono', max_length=15, validators=[validar_telefono])
+    telefono = models.CharField('Teléfono', max_length=10, validators=[validar_telefono])
     correo = models.EmailField('Correo electrónico', unique=True)
     direccion = models.CharField('Dirección', max_length=255)
 
