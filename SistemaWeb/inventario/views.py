@@ -35,6 +35,12 @@ def _notificar_errores_formulario(request, form):
 # AUTENTICACIÓN, REGISTRO Y MENÚ PRINCIPAL
 # ==============================================================================
 
+def inicio_view(request):
+    if request.user.is_authenticated:
+        return redirect('menu_principal')
+    else:
+        return redirect('login')
+
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('menu_principal')

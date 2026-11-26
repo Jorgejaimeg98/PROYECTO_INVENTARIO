@@ -5,52 +5,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Inventario{% endblock %}</title>
+    <!-- Google Fonts: Barlow Condensed & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body class="{% if not user.is_authenticated %}auth-body{% endif %}">
-
 {% if user.is_authenticated %}
 <div class="app-shell">
-    <aside class="sidebar">
-        <div class="brand">
+    <!-- Barra superior exclusiva para móviles y tablets -->
+    <header class="mobile-topbar">
+        <div class="brand-inline">
             <div class="brand-badge">INV</div>
-            <div>
-                <div class="brand-title">InventaPro</div>
-                <div class="brand-sub">Gestión de Inventario</div>
-            </div>
+            <span class="brand-title">InventaPro</span>
         </div>
+        <button type="button" class="menu-toggle" id="sidebarToggle" aria-label="Abrir menú de navegación">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
 
-        <nav class="nav-menu">
-            <a href="{% url 'menu_principal' %}" class="nav-link {% if request.resolver_match.url_name == 'menu_principal' %}active{% endif %}">
-                Menú Principal
-            </a>
+    <!-- Overlay para cerrar el menú en móviles al hacer tap afuera -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <div class="nav-section">Mantenimiento Núcleo</div>
-            <a href="{% url 'listar_articulos' %}" class="nav-link nav-core {% if 'articulo' in request.resolver_match.url_name %}active{% endif %}">
-                Artículos
-            </a>
-
-            <div class="nav-section">Módulos Relacionados</div>
-            <a href="{% url 'listar_categorias' %}" class="nav-link {% if 'categoria' in request.resolver_match.url_name %}active{% endif %}">
-                Categorías
-            </a>
-            <a href="{% url 'listar_proveedores' %}" class="nav-link {% if 'proveedor' in request.resolver_match.url_name %}active{% endif %}">
-                Proveedores
-            </a>
-            <a href="{% url 'listar_entradas' %}" class="nav-link {% if 'entrada' in request.resolver_match.url_name %}active{% endif %}">
-                Entradas
-            </a>
-            <a href="{% url 'listar_salidas' %}" class="nav-link {% if 'salida' in request.resolver_match.url_name %}active{% endif %}">
-                Salidas
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="user-chip">
-                <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
-                <span class="user-meta">{{ user.cedula }}</span>
+    <!-- Barra lateral -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <!-- Marca / Brand -->
+            <div class="brand">
+                <div class="brand-badge">INV</div>
+                <div>
+                    <div class="brand-title">InventaPro</div>
+                    <div class="brand-sub">Gestión de Inventario</div>
+                </div>
             </div>
-            <a href="{% url 'logout' %}" class="btn btn-outline btn-block">Cerrar sesión</a>
+
+            <!-- Bloque de usuario y cierre de sesión en la parte superior de la barra lateral -->
+            <div class="sidebar-user-top">
+                <div class="user-chip">
+                    <div class="user-avatar">
+                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+                        <span class="user-meta">ID: {{ user.cedula }}</span>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="btn btn-logout btn-block" title="Cerrar sesión">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Cerrar sesión
+                </a>
+            </div>
+
+            <!-- Menú de navegación con URLs originales intactas -->
+            <nav class="nav-menu">
+                <a href="{% url 'menu_principal' %}" class="nav-link {% if request.resolver_match.url_name == 'menu_principal' %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                    Menú Principal
+                </a>
+
+                <div class="nav-section">Mantenimiento Núcleo</div>
+                <a href="{% url 'listar_articulos' %}" class="nav-link nav-core {% if 'articulo' in request.resolver_match.url_name %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    Artículos
+                </a>
+
+                <div class="nav-section">Módulos Relacionados</div>
+                <a href="{% url 'listar_categorias' %}" class="nav-link {% if 'categoria' in request.resolver_match.url_name %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    Categorías
+                </a>
+                <a href="{% url 'listar_proveedores' %}" class="nav-link {% if 'proveedor' in request.resolver_match.url_name %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    Proveedores
+                </a>
+                <a href="{% url 'listar_entradas' %}" class="nav-link {% if 'entrada' in request.resolver_match.url_name %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><polyline points="8 11 12 15 16 11"/><path d="M8 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4"/></svg>
+                    Entradas
+                </a>
+                <a href="{% url 'listar_salidas' %}" class="nav-link {% if 'salida' in request.resolver_match.url_name %}active{% endif %}">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3"/><polyline points="8 7 12 3 16 7"/><path d="M8 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4"/></svg>
+                    Salidas
+                </a>
+            </nav>
         </div>
     </aside>
 
@@ -65,7 +104,6 @@
             {% endfor %}
         </div>
         {% endif %}
-
         {% block content %}{% endblock %}
     </main>
 </div>
@@ -81,11 +119,9 @@
         {% endfor %}
     </div>
     {% endif %}
-
     {% block auth_content %}{% endblock %}
 </main>
 {% endif %}
-
 <script src="{% static 'js/validaciones.js' %}"></script>
 </body>
 </html>

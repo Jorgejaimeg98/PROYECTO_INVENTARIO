@@ -4,6 +4,7 @@
 {% block content %}
 <div class="page-header">
     <div>
+        <span class="header-kicker">FERRETERÍA INDUSTRIAL &bull; CONTROL CENTRAL</span>
         <h1>Panel de Control</h1>
         <p class="subtitle">Arquitectura relacional del sistema de inventario centrada en el módulo de Artículos.</p>
     </div>
@@ -12,7 +13,7 @@
 <!-- Mantenimiento Núcleo -->
 <section class="core-banner">
     <div class="core-banner-info">
-        <span class="badge badge-light">MANTENIMIENTO PRINCIPAL (NÚCLEO)</span>
+        <span class="badge badge-accent">MANTENIMIENTO PRINCIPAL (NÚCLEO)</span>
         <h2>Artículos del Inventario</h2>
         <p>Entidad central vinculada directamente con Categorías, Proveedores, Entradas y Salidas de stock.</p>
         <div class="core-metrics">
@@ -27,64 +28,88 @@
         </div>
     </div>
     <div class="core-banner-actions">
-        <a href="{% url 'listar_articulos' %}" class="btn btn-white">Gestionar Artículos</a>
+        <a href="{% url 'listar_articulos' %}" class="btn btn-accent">Gestionar Artículos</a>
         <a href="{% url 'crear_articulos' %}" class="btn btn-outline-light">+ Nuevo Artículo</a>
     </div>
 </section>
 
 <!-- Mantenimientos Relacionados -->
-<h2 class="section-heading">Mantenimientos Relacionados</h2>
+<div class="section-header-row">
+    <h2 class="section-heading">Mantenimientos Relacionados</h2>
+    <span class="section-sub">Módulos operativos vinculados al inventario</span>
+</div>
+
 <div class="modules-grid">
-    <div class="module-card">
-        <div class="module-top">
-            <span class="badge badge-secondary">Relación 1:N con Artículos</span>
+    <article class="module-card">
+        <div class="module-card-header">
+            <div class="module-icon-box icon-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
             <span class="module-count">{{ total_categorias }}</span>
         </div>
-        <h3>Categorías</h3>
-        <p>Clasificación y organización lógica de los productos del catálogo.</p>
+        <div class="module-body">
+            <span class="badge badge-secondary">Relación 1:N con Artículos</span>
+            <h3>Categorías</h3>
+            <p>Clasificación y organización lógica de los productos del catálogo.</p>
+        </div>
         <div class="module-actions">
             <a href="{% url 'listar_categorias' %}" class="btn btn-primary btn-sm">Listar</a>
             <a href="{% url 'crear_categorias' %}" class="btn btn-outline btn-sm">Crear</a>
         </div>
-    </div>
+    </article>
 
-    <div class="module-card">
-        <div class="module-top">
-            <span class="badge badge-secondary">Relación 1:N con Artículos y Entradas</span>
+    <article class="module-card">
+        <div class="module-card-header">
+            <div class="module-icon-box icon-slate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
             <span class="module-count">{{ total_proveedores }}</span>
         </div>
-        <h3>Proveedores</h3>
-        <p>Directorio de empresas suministradoras identificadas por RUC.</p>
+        <div class="module-body">
+            <span class="badge badge-secondary">Relación 1:N con Artículos y Entradas</span>
+            <h3>Proveedores</h3>
+            <p>Directorio de empresas suministradoras identificadas por RUC.</p>
+        </div>
         <div class="module-actions">
             <a href="{% url 'listar_proveedores' %}" class="btn btn-primary btn-sm">Listar</a>
             <a href="{% url 'crear_proveedores' %}" class="btn btn-outline btn-sm">Crear</a>
         </div>
-    </div>
+    </article>
 
-    <div class="module-card">
-        <div class="module-top">
-            <span class="badge badge-secondary">Incrementa stock de Artículos</span>
+    <article class="module-card">
+        <div class="module-card-header">
+            <div class="module-icon-box icon-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><polyline points="8 11 12 15 16 11"/><path d="M8 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4"/></svg>
+            </div>
             <span class="module-count">{{ total_entradas }}</span>
         </div>
-        <h3>Entradas</h3>
-        <p>Registro de ingresos de mercadería vinculados a artículo y proveedor.</p>
+        <div class="module-body">
+            <span class="badge badge-secondary">Incrementa stock de Artículos</span>
+            <h3>Entradas</h3>
+            <p>Registro de ingresos de mercadería vinculados a artículo y proveedor.</p>
+        </div>
         <div class="module-actions">
             <a href="{% url 'listar_entradas' %}" class="btn btn-primary btn-sm">Listar</a>
             <a href="{% url 'crear_entradas' %}" class="btn btn-outline btn-sm">Registrar</a>
         </div>
-    </div>
+    </article>
 
-    <div class="module-card">
-        <div class="module-top">
-            <span class="badge badge-secondary">Descuenta stock de Artículos</span>
+    <article class="module-card">
+        <div class="module-card-header">
+            <div class="module-icon-box icon-red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15V3"/><polyline points="8 7 12 3 16 7"/><path d="M8 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4"/></svg>
+            </div>
             <span class="module-count">{{ total_salidas }}</span>
         </div>
-        <h3>Salidas</h3>
-        <p>Control de despachos, ventas, mermas y egresos con validación de stock.</p>
+        <div class="module-body">
+            <span class="badge badge-secondary">Descuenta stock de Artículos</span>
+            <h3>Salidas</h3>
+            <p>Control de despachos, ventas, mermas y egresos con validación de stock.</p>
+        </div>
         <div class="module-actions">
             <a href="{% url 'listar_salidas' %}" class="btn btn-primary btn-sm">Listar</a>
             <a href="{% url 'crear_salidas' %}" class="btn btn-outline btn-sm">Registrar</a>
         </div>
-    </div>
+    </article>
 </div>
 {% endblock %}

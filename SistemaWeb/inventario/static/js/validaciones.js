@@ -1,25 +1,21 @@
 /**
- * Validaciones de frontend para registro, login y los 5 módulos de mantenimiento.
+ * Validaciones de frontend y comportamiento de interfaz multiplataforma.
  */
 
+// Algoritmo de Cédula Ecuatoriana (Módulo 10)
 function validarCedulaEcuatorianaJS(cedula) {
     if (!/^\d{10}$/.test(cedula)) return false;
-
     const provincia = parseInt(cedula.substring(0, 2), 10);
     if (!((provincia >= 1 && provincia <= 24) || provincia === 30)) return false;
-
     const tercerDigito = parseInt(cedula.charAt(2), 10);
     if (tercerDigito >= 6) return false;
-
     const coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2];
     let suma = 0;
-
     for (let i = 0; i < 9; i++) {
         let producto = parseInt(cedula.charAt(i), 10) * coeficientes[i];
         if (producto >= 10) producto -= 9;
         suma += producto;
     }
-
     const verificador = (10 - (suma % 10)) % 10;
     return verificador === parseInt(cedula.charAt(9), 10);
 }
@@ -47,7 +43,49 @@ function limpiarError(input) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Confirmación para eliminado lógico
+
+    /* ----------------------------------------------------------------------
+       1. Menú lateral responsivo multiplataforma (Móviles / Tablets)
+       ---------------------------------------------------------------------- */
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    if (sidebar && sidebarToggle && sidebarOverlay) {
+        const abrirMenu = () => {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        };
+
+        const cerrarMenu = () => {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (sidebar.classList.contains('open')) {
+                cerrarMenu();
+            } else {
+                abrirMenu();
+            }
+        });
+
+        sidebarOverlay.addEventListener('click', cerrarMenu);
+
+        // Cerrar menú al presionar tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                cerrarMenu();
+            }
+        });
+    }
+
+    /* ----------------------------------------------------------------------
+       2. Confirmación para eliminado lógico
+       ---------------------------------------------------------------------- */
     document.querySelectorAll('.confirm-delete-form').forEach((form) => {
         form.addEventListener('submit', (e) => {
             const confirmado = window.confirm(
@@ -57,7 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Validación en vivo y al enviar formularios
+    /* ----------------------------------------------------------------------
+       3. Validación de formularios (.validated-form)
+       ---------------------------------------------------------------------- */
     document.querySelectorAll('.validated-form').forEach((form) => {
         form.addEventListener('submit', (e) => {
             let esValido = true;
@@ -69,38 +109,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 limpiarError(campo);
                 const valor = campo.value.trim();
 
-                // 1. Campos obligatorios
+                // Campos requeridos
                 if (campo.hasAttribute('required') && valor === '') {
                     mostrarError(campo, 'Este campo es obligatorio.');
                     esValido = false;
                     return;
                 }
 
-                // 2. Correo electrónico
+                // Email
                 if (campo.type === 'email' && valor !== '' && !validarEmailJS(valor)) {
                     mostrarError(campo, 'Ingresa un correo electrónico con formato válido.');
                     esValido = false;
                 }
 
-                // 3. Cédula ecuatoriana
+                // Cédula ecuatoriana
                 if (campo.name === 'cedula' && valor !== '' && !validarCedulaEcuatorianaJS(valor)) {
                     mostrarError(campo, 'La cédula ecuatoriana ingresada no es válida.');
                     esValido = false;
                 }
 
-                // 4. RUC ecuatoriano
+                // RUC ecuatoriano
                 if (campo.name === 'ruc' && valor !== '' && !/^\d{13}$/.test(valor)) {
                     mostrarError(campo, 'El RUC debe tener exactamente 13 dígitos numéricos.');
                     esValido = false;
                 }
 
-                // 5. Teléfono
+                // Teléfono
                 if (campo.name === 'telefono' && valor !== '' && !/^\d{7,15}$/.test(valor)) {
                     mostrarError(campo, 'El teléfono debe contener solo entre 7 y 15 dígitos.');
                     esValido = false;
                 }
 
-                // 6. Valores numéricos mínimos
+                // Números mínimos
                 if (campo.type === 'number' && valor !== '') {
                     const num = parseFloat(valor);
                     const min = campo.getAttribute('min');
@@ -111,10 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 7. Reglas específicas de registro
+            // Reglas específicas para formulario de registro
             if (tipo === 'registro') {
-                const pass1 = form.querySelector('#id_password');
-                const pass2 = form.querySelector('#id_confirmar_password');
+                const pass1 = form.querySelector('#id_password') || form.querySelector('input[name="password"]');
+                const pass2 = form.querySelector('#id_confirmar_password') || form.querySelector('input[name="confirmar_password"]') || form.querySelector('input[name="password_confirm"]');
                 const fechaNac = form.querySelector('input[name="fecha_nacimiento"]');
 
                 if (pass1 && pass1.value.length < 8) {
